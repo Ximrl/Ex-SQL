@@ -21,5 +21,6 @@ Select COALESCE(i.point, o.point) as point, COALESCE(i.date, o.date) as date,
 case when MAX(inc) IS NULL then 'out' else 'inc' end operation, COALESCE(SUM(inc), SUM(out)) as money
 from Income as i 
 	full join outcome as o on i.date = o.date and i.point = o.point
+	-- Полное соединение двух таблиц для выбора дней без одновременного прихода и расхода
 where i.point is null or o.point is null
 group by COALESCE(i.point, o.point), COALESCE(i.date, o.date)
