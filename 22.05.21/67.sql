@@ -29,10 +29,10 @@ from (
 		from trip
 		group by town_from, town_to
 		having count(trip_no) >= ALL (
-										select count(trip_no) 
-										from trip 
-										group by town_from, town_to
-										)
+				select count(trip_no) 
+				from trip 
+				group by town_from, town_to
+				)
 	) as trips
 
 -- Вариант 2

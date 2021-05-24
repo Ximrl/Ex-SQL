@@ -32,19 +32,19 @@ select row_number() over (order by maker, number) as num,
 		when type = 'PC' then maker 
 		when type <> 'PC' 
 			and maker in (
-							select maker 
-							from product where type = 'PC'
-						) then ''
+					select maker 
+					from product where type = 'PC'
+					) then ''
 		when type = 'laptop' 
 			and maker not in (
-								select maker 
-								from product where type = 'PC'
-							) then maker
+					select maker 
+					from product where type = 'PC'
+					) then maker
 		when type <> 'laptop' 
 			and maker in (
-							select maker 
-							from product where type = 'Laptop'
-						) then ''
+					select maker 
+					from product where type = 'Laptop'
+					) then ''
 		else maker 
 	end  as marker, 
 	type
@@ -62,28 +62,31 @@ from (
 	-- Соединение таблицы с производителей/типов с необходимым для вывода порядком типов
 
 -- Вариант 2 (Считаю  более оптимальным)
-select row_number() over( order by maker, case 
-										when type = 'PC' then 1 
-										when type = 'Laptop' then 2 
-										when type = 'Printer' then 3 
-										end) as num,
+select row_number() over(
+		order by maker, 
+		case 
+			when type = 'PC' then 1 
+			when type = 'Laptop' then 2 
+			when type = 'Printer' then 3 
+		end
+		) as num,
 	case 
 		when type = 'PC' then maker 
 		when type <> 'PC' 
 			and maker in (
-							select maker 
-							from product where type = 'PC'
-						) then ''
+					select maker 
+					from product where type = 'PC'
+					) then ''
 		when type = 'laptop' 
 			and maker not in (
-								select maker 
-								from product where type = 'PC'
-							) then maker
+					select maker 
+					from product where type = 'PC'
+					) then maker
 		when type <> 'laptop' 
 			and maker in (
-							select maker 
-							from product where type = 'Laptop'
-						) then ''
+					select maker 
+					from product where type = 'Laptop'
+					) then ''
 		else maker 
 	end  as marker, 
 	type

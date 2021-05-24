@@ -26,30 +26,30 @@ from(
 		select date
 		from Pass_in_trip
 		where trip_no in (
-							select trip_no 
-							from trip 
-							where town_from = 'Rostov'
-						)
-						and (
-							date between '2003-04-01' and '2003-04-07'
-							)
+				select trip_no 
+				from trip 
+				where town_from = 'Rostov'
+				)
+			and (
+				date between '2003-04-01' and '2003-04-07'
+				)
 		group by date, trip_no
 		) as r_dates 
 		right join (
-					select datetimefromparts(2003, 4, 1, 00, 00, 00, 000) as date
-					union all
-					select datetimefromparts(2003, 4, 2, 00, 00, 00, 000)
-					union all
-					select datetimefromparts(2003, 4, 3, 00, 00, 00, 000)
-					union all
-					select datetimefromparts(2003, 4, 4, 00, 00, 00, 000)
-					union all
-					select datetimefromparts(2003, 4, 5, 00, 00, 00, 000)
-					union all
-					select datetimefromparts(2003, 4, 6, 00, 00, 00, 000)
-					union all
-					select datetimefromparts(2003, 4, 7, 00, 00, 00, 000)
-					) as dates on r_dates.date = dates.date
+				select datetimefromparts(2003, 4, 1, 00, 00, 00, 000) as date
+				union all
+				select datetimefromparts(2003, 4, 2, 00, 00, 00, 000)
+				union all
+				select datetimefromparts(2003, 4, 3, 00, 00, 00, 000)
+				union all
+				select datetimefromparts(2003, 4, 4, 00, 00, 00, 000)
+				union all
+				select datetimefromparts(2003, 4, 5, 00, 00, 00, 000)
+				union all
+				select datetimefromparts(2003, 4, 6, 00, 00, 00, 000)
+				union all
+				select datetimefromparts(2003, 4, 7, 00, 00, 00, 000)
+				) as dates on r_dates.date = dates.date
 		-- Соездинение таблицы с датами рейсов из Ростова с необходимым диапазоном дат
 group by dates.date
 
@@ -68,13 +68,13 @@ from dates
 				select date
 				from Pass_in_trip
 				where trip_no in (
-									select trip_no 
-									from trip 
-									where town_from = 'Rostov'
-								)
-								and (
-									date between '2003-04-01' and '2003-04-07'
-									)
+						select trip_no 
+						from trip 
+						where town_from = 'Rostov'
+						)
+					and (
+						date between '2003-04-01' and '2003-04-07'
+						)
 				group by date, trip_no
 			)as r_dates on dates.date = r_dates.date
 	-- Соездинение таблицы с датами рейсов из Ростова с необходимым диапазоном дат
@@ -89,12 +89,14 @@ with nums as (
 			select 2
 			union all 
 			select 3
-		) as num1 cross join (
-								select 1 as b 
-								union all 
-								select 2
-								union all 
-								select 3) as  num2
+			) as num1 
+		cross join (
+				select 1 as b 
+				union all 
+				select 2
+				union all 
+				select 3
+				) as  num2
 )
 , dates as (
 	select datetimefromparts(2003, 4, num, 00, 00, 00, 000) as date 
@@ -105,17 +107,17 @@ with nums as (
 select dates.date, count(r_dates.date)
 from dates 
 	left join (
-				select date
-				from Pass_in_trip
-				where trip_no in (
-									select trip_no 
-									from trip 
-									where town_from = 'Rostov'
-								)
-								and (
-									date between '2003-04-01' and '2003-04-07'
-									)
-				group by date, trip_no
+			select date
+			from Pass_in_trip
+			where trip_no in (
+					select trip_no 
+					from trip 
+					where town_from = 'Rostov'
+					)
+				and (
+					date between '2003-04-01' and '2003-04-07'
+					)
+			group by date, trip_no
 			)as r_dates on dates.date = r_dates.date
 	-- Соездинение таблицы с датами рейсов из Ростова с необходимым диапазоном дат
 group by dates.date
