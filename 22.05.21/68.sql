@@ -40,3 +40,14 @@ with uniq_trips as (
 select count(*)
 from concat_trips
 where g_trips = (select max(g_trips) from concat_trips)
+
+-- Вариант 2 (Считаю более оптимальным)
+with counter as (
+	select count(*) as c
+	from trip
+	group by case when town_from > town_to then town_from else town_to end,
+case when town_from > town_to then town_to else town_from end)
+
+select count(*) 
+from counter
+where c = (select max(c) from counter)
