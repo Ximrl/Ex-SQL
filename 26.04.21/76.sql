@@ -33,3 +33,22 @@ from passenger
 	join trip on trip.trip_no = pass_in_trip.trip_no
 group by name, passenger.id_psg
 having count(place) = count(distinct place)
+
+-- Вариант 2 (Дешевле в 3 раза)
+select name, sum (minutes) as minutes
+	from (
+		select id_psg, case 
+			when datediff(mi, time_out, time_in) > 0 
+			then datediff (mi, time_out, time_in) 
+			else datediff(mi, time_out, time_in)+ 1440 
+			end as minutes
+		from pass_in_trip 
+			join trip on trip.trip_no = pass_in_trip.trip_no
+		) as min join passenger on passenger.id_psg = min.id_psg
+where passenger.id_psg in (
+		select id_psg 
+		from pass_in_trip
+		group by id_psg
+		having count(place) = count(distinct place)
+		)
+group by name, passenger.id_psg
